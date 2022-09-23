@@ -10,7 +10,8 @@
             <el-input
                 v-model="name"
                 placeholder="请输入姓名"
-                @blur="name_test"
+                @blur="name_alert"
+                @input='test'
                 clearable
             ></el-input>
         </el-tooltip>
@@ -25,7 +26,8 @@
                 placeholder="请输入密码"
                 v-model="pwd"
                 show-password
-                @blur="pwd_test"
+                @blur="pwd_alert"
+                @input='test'
                 clearable
             ></el-input>
         </el-tooltip>
@@ -54,7 +56,7 @@ export default {
     },
     methods: {
         change() {
-            this.$router.push('/resign')
+            this.$router.push('/register')
         },
         login() {
             this.$axios
@@ -66,9 +68,7 @@ export default {
                 )
                 .then((res) => {
                     if (res.data.length) {
-                        // this.$alert("网络请求超时,请检查网络", {
-                        //     confirmButtonText: "确定",
-                        // });
+                        this.$router.push('/home')
                     } else {
                         this.$axios
                             .get(
@@ -93,13 +93,13 @@ export default {
                     });
                 });
         },
-        name_test() {
+        name_alert() {
             let test = /^[\u4E00-\u9FA5]{2,5}$/;
             if (!test.test(this.name)) {
                 this.$message.error("姓名输入错误");
             }
         },
-        pwd_test() {
+        pwd_alert() {
             let test = /^[0-9a-z]{3,12}$/i;
             if (!test.test(this.pwd)) {
                 this.$message.error("密码格式错误");
