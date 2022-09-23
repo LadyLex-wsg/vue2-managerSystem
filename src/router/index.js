@@ -6,7 +6,18 @@ Vue.use(VueRouter)
 const routes = [
   {
     path:'/',
-    component:()=>import('../views/in/index.vue')
+    component:()=>import('../views/in/index.vue'),
+    redirect:'/login',
+    children:[
+      {
+        path:'login',
+        component:()=>import('@/views/in/login.vue')
+      },
+      {
+        path:'resign',
+        component:()=>import('@/views/in/resign.vue')
+      }
+    ]
   }
 ]
 

@@ -1,21 +1,17 @@
-<templte>
+<template>
     <div id="app">
         <h1>人事管理系统</h1>
         <div class="item">
-            <Login v-show='show'></Login>
-            <Resign v-show='!show'></Resign>
+            <router-view/>
         </div>
     </div>
-</templte>
+</template>
 
 <script>
-import Login from '@/components/login.vue';
-import Resign from '@/components/resign.vue';
 export default {
-    components: { Login, Resign },
     data(){
         return{
-            show:true
+            
         }
     }
     };

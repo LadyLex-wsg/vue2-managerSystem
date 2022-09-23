@@ -31,16 +31,15 @@
             ></el-input>
         </el-tooltip>
         <span>选择你的职位</span>
-        <el-cascader
-            v-model="job"
-            :options="options"
-        ></el-cascader>
+        <el-cascader v-model="job" :options="options"></el-cascader>
         <div class="btn">
             <el-button :type="type" plain :disabled="off" @click="sign"
                 >注册</el-button
             >
             <el-button type="success" plain @click="change">登录</el-button>
         </div>
+        <p>欢迎使用本管理系统</p>
+        <p>如有问题请致电开发部:138xxxxxxxx</p>
     </div>
 </template>
 
@@ -49,9 +48,9 @@ export default {
     data() {
         return {
             off: true,
-            name_status : false,
-            pwd_status:false,
-            job_status : false,
+            name_status: false,
+            pwd_status: false,
+            job_status: false,
             type: "danger",
             name: "",
             pwd: "",
@@ -112,14 +111,14 @@ export default {
     },
     methods: {
         change() {
-            this.$parent.show = !this.$parent.show;
+            this.$router.push("/");
         },
         sign() {
             let data = {
-                "name": this.name,
-                "part": this.job[0],
-                "job": this.job[1],
-                "pwd": this.pwd,
+                name: this.name,
+                part: this.job[0],
+                job: this.job[1],
+                pwd: this.pwd,
             };
             this.$axios.post("http://localhost:3000/add", data).then(() => {
                 this.$message({
@@ -158,25 +157,25 @@ export default {
                 this.pwd_status = false;
             }
         },
-        job(){
-            if(this.job.length){
-                this.job_status = true
+        job() {
+            if (this.job.length) {
+                this.job_status = true;
             } else {
-                this.job_status = false
+                this.job_status = false;
             }
-        }
+        },
     },
-    computed:{
-        test(){
-            if(this.name_status && this.pwd_status && this.job_status){
-                this.off = false
+    computed: {
+        test() {
+            if (this.name_status && this.pwd_status && this.job_status) {
+                this.off = false;
                 this.type = "primary";
             } else {
-                this.off = true
+                this.off = true;
                 this.type = "danger";
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
@@ -189,9 +188,14 @@ export default {
     display: flex;
     justify-content: center;
     margin-top: 40px;
-    margin-bottom: 80px;
+    margin-bottom: 39px;
     button:first-child {
         margin-right: 30px;
     }
+}
+p {
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 8px;
 }
 </style>

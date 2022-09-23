@@ -54,7 +54,7 @@ export default {
     },
     methods: {
         change() {
-            this.$parent.show = !this.$parent.show;
+            this.$router.push('/resign')
         },
         login() {
             this.$axios
