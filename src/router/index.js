@@ -26,6 +26,9 @@ const routes = [
   {
     path:'*',
     component:()=>import('@/views/404.vue')
+  },{
+    path:'/401',
+    component:()=>import('@/views/401.vue')
   }
 ]
 
