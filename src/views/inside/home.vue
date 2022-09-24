@@ -1,4 +1,4 @@
-<templat>
+<template>
     <div id="app">
         <el-container style="height: 100%">
             <el-aside width="200px">
@@ -43,7 +43,7 @@
             </el-container>
         </el-container>
     </div>
-</templat>
+</template>
 
 <script>
 export default {
