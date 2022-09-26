@@ -2,31 +2,29 @@
     <div id="app">
         <el-container style="height: 100%">
             <el-aside width="200px">
-                <el-menu :default-openeds="['1']">
+                <el-menu :default-openeds="['1','2']" default-active="2-1">
                     <el-submenu index="1" v-show="access">
                         <template slot="title">
                             <i class="el-icon-user"></i>
-                            <span>导航一</span>
+                            <span>员工管理</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="1-1">选项1</el-menu-item>
-                            <el-menu-item index="1-2">选项2</el-menu-item>
+                            <el-menu-item index="1-1">员工总览</el-menu-item>
+                            <el-menu-item index="1-2">入职审批</el-menu-item>
+                            <el-menu-item index="1-3">离职审批</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="2">
                         <template slot="title">
                             <i class="el-icon-menu"></i>
-                            <span slot="title">导航二</span>
+                            <span slot="title">个人管理</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="2-1">选项1</el-menu-item>
-                            <el-menu-item index="2-2">选项2</el-menu-item>
+                            <el-menu-item index="2-1">个人信息</el-menu-item>
+                            <el-menu-item index="2-2">辞职申请</el-menu-item>
+                            <el-menu-item index="2-3">修改密码</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
-                    <el-menu-item index="3">
-                        <i class="el-icon-setting"></i>
-                        <span slot="title">导航三</span>
-                    </el-menu-item>
                 </el-menu>
             </el-aside>
             <el-container>
