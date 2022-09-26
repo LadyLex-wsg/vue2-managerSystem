@@ -53,7 +53,6 @@ export default {
         };
     },
     created() {
-        console.log(sessionStorage.getItem("system_confirm"));
         if (sessionStorage.getItem("system_confirm")) {
             this.$axios
                 .get(
@@ -61,8 +60,32 @@ export default {
                         sessionStorage.getItem("system_confirm")
                 )
                 .then((res) => {
-                    this.$store.dispatch("main_confirm", res.data[0]);
-                    this.access = res.data[0].access;
+                    if (res.data[0]) {
+                        this.$store.dispatch("main_confirm", res.data[0]);
+                        this.access = res.data[0].access;
+                        if (this.access) {
+                            this.$axios
+                                .get("http://localhost:3000/add")
+                                .then((res) => {
+                                    if (res.data) {
+                                        this.$notify.info({
+                                            title: "提示",
+                                            message: "您有待处理的入职审批",
+                                        });
+                                    }
+                                });
+                            this.$axios
+                                .get("http://localhost:3000/del")
+                                .then((res) => {
+                                    this.$notify.error({
+                                        title: "提示",
+                                        message: "您有待处理的离职审批",
+                                    });
+                                });
+                        }
+                    } else {
+                        this.$router.push("/401");
+                    }
                 });
         } else {
             this.$router.push("/");
