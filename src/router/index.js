@@ -21,7 +21,14 @@ const routes = [
   },
   {
     path:'/home',
-    component:()=>import('@/views/inside/home.vue')
+    component:()=>import('@/views/inside/home.vue'),
+    redirect:'/home/list',
+    children:[
+      {
+        path:'list',
+        component:()=>import('@/views/inside/list.vue')
+      }
+    ]
   },
   {
     path:'*',
@@ -33,7 +40,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
 })

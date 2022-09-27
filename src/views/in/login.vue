@@ -88,7 +88,7 @@ export default {
                             });
                     }
                 })
-                .catch(function () {
+                .catch(()=>{
                     this.$alert("网络请求超时,请检查网络", {
                         confirmButtonText: "确定",
                     });
