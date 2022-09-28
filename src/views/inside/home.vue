@@ -2,14 +2,19 @@
     <div id="app">
         <el-container style="height: 100%">
             <el-aside width="200px">
-                <el-menu :default-openeds="['1', '2']" default-active="1-1">
+                <el-menu :default-openeds="['1', '2']">
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-user"></i>
                             <span>员工管理</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="1-1" @click="$router.push('/home/list')">员工总览</el-menu-item>
+                            <el-menu-item
+                                index="1-1"
+                                @click="$router.push('/home/list')"
+                                >员工总览
+                                </el-menu-item
+                            >
                             <el-menu-item index="1-2" v-show="access"
                                 >入职审批</el-menu-item
                             >
@@ -25,7 +30,7 @@
                         </template>
                         <el-menu-item-group>
                             <el-menu-item index="2-1">辞职申请</el-menu-item>
-                            <el-menu-item index="2-2">修改密码</el-menu-item>
+                            <el-menu-item index="2-2" @click="$router.push('/home/fix')">修改密码</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                 </el-menu>
@@ -33,10 +38,17 @@
             <el-container>
                 <el-header height="80px">
                     <el-breadcrumb separator="/">
+                        <el-dropdown @command='action'>
                             <i
-                                class="el-icon-user-solid"
+                                class="el-icon-setting"
                                 style="margin-right: 15px"
                             ></i>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item command='fix'>修改密码</el-dropdown-item>
+                                <el-dropdown-item command="bye">退出登录</el-dropdown-item
+                                >
+                            </el-dropdown-menu>
+                        </el-dropdown>
                         <el-breadcrumb-item>{{
                             $store.state.user.part
                         }}</el-breadcrumb-item>
@@ -105,6 +117,15 @@ export default {
     destroyed() {
         sessionStorage.removeItem("system_confirm");
     },
+    methods:{
+        action(what){
+            if(what == 'fix'){
+                this.$router.push('/home/fix')
+            }else if(what == 'bye'){
+                this.$router.push('/')
+            }
+        }
+    }
 };
 </script>
 
@@ -125,7 +146,7 @@ export default {
         justify-content: flex-end;
         align-items: center;
         background-color: #d3dce6;
-        div.el-breadcrumb{
+        div.el-breadcrumb {
             margin-right: 50px;
         }
     }

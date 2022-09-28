@@ -27,6 +27,10 @@ const routes = [
       {
         path:'list',
         component:()=>import('@/views/inside/list.vue')
+      },
+      {
+        path:'fix',
+        component:()=>import('@/views/inside/fix.vue')
       }
     ]
   },
@@ -38,6 +42,11 @@ const routes = [
     component:()=>import('@/views/401.vue')
   }
 ]
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+return originalPush.call(this, location).catch(err => err)
+}
 
 const router = new VueRouter({
   mode: 'hash',
