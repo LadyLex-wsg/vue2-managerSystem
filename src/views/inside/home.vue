@@ -29,7 +29,7 @@
                             <span slot="title">个人管理</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="2-1">辞职申请</el-menu-item>
+                            <el-menu-item index="2-1" @click="$router.push('/home/bye')">辞职申请</el-menu-item>
                             <el-menu-item index="2-2" @click="$router.push('/home/fix')">修改密码</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
@@ -90,7 +90,7 @@ export default {
                             this.$axios
                                 .get("http://localhost:3000/add")
                                 .then((res) => {
-                                    if (res.data) {
+                                    if (res.data[0]) {
                                         this.$notify.info({
                                             title: "提示",
                                             message: "您有待处理的入职审批",
@@ -100,10 +100,12 @@ export default {
                             this.$axios
                                 .get("http://localhost:3000/del")
                                 .then((res) => {
-                                    this.$notify.error({
+                                    if(res.data[0]){
+                                        this.$notify.error({
                                         title: "提示",
                                         message: "您有待处理的离职审批",
                                     });
+                                    }
                                 });
                         }
                     } else {

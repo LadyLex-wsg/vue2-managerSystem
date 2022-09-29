@@ -31,6 +31,10 @@ const routes = [
       {
         path:'fix',
         component:()=>import('@/views/inside/fix.vue')
+      },
+      {
+        path:"bye",
+        component:()=>import('@/views/inside/bye.vue')
       }
     ]
   },

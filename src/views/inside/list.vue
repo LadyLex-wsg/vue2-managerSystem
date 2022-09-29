@@ -5,7 +5,6 @@
             style="width: 100%; height: 100%"
             row-key="id"
             border
-            default-expand-all
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
         >
             <el-table-column prop="part" label="部门" sortable width="230">
