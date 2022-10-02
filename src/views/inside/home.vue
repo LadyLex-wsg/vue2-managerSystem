@@ -18,7 +18,7 @@
                             <el-menu-item index="1-2" v-show="access"
                                 >入职审批</el-menu-item
                             >
-                            <el-menu-item index="1-3" v-show="access"
+                            <el-menu-item index="1-3" v-show="access" @click="$router.push('/home/del')"
                                 >离职审批</el-menu-item
                             >
                         </el-menu-item-group>

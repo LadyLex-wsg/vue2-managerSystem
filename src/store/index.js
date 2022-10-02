@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user:{
+      id:'',
       access:false,
       name:'',
       part:'',
@@ -18,6 +19,7 @@ export default new Vuex.Store({
   },
   actions: {
     main_confirm(context,payload){
+      context.state.user.id = payload.id
       context.state.user.name = payload.name
       context.state.user.access = payload.access
       context.state.user.job = payload.job

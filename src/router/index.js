@@ -35,6 +35,10 @@ const routes = [
       {
         path:"bye",
         component:()=>import('@/views/inside/bye.vue')
+      },
+      {
+        path:"del",
+        component:()=>import('@/views/inside/del.vue')
       }
     ]
   },

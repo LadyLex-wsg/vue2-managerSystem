@@ -2,13 +2,18 @@
     <div>
         <div v-if="global">
             <h2>确定要辞职吗?</h2>
-            <el-button type="warning" plain @click="show = true">辞职</el-button>
-            <el-dialog title="辞职申请" :visible.sync="show" width="50%">
+            <el-button type="warning" plain @click="show = true"
+                >辞职</el-button
+            >
+            <el-dialog title="辞职申请" :visible="show" width="50%">
                 <span>{{ $store.state.user.name }},确定要提交辞职申请吗?</span>
-                    <el-input v-model="pwd" autocomplete="off" placeholder="请输入密码"></el-input>
+                <el-input
+                    v-model="pwd"
+                    autocomplete="off"
+                    placeholder="请输入密码"
+                ></el-input>
                 <span slot="footer" class="dialog-footer">
-                    <el-button type="success" @click="show = false">取 消</el-button
-                    >
+                    <el-button @click="show = false">取 消</el-button>
                     <el-button type="danger" @click="goodBye">确 定</el-button>
                 </span>
             </el-dialog>
@@ -40,16 +45,35 @@ export default {
                 .then((res) => {
                     if (res.data[0]) {
                         this.show = false;
+                        let time = new Date();
                         this.$axios
                             .post("http://localhost:3000/del", {
                                 name: this.$store.state.user.name,
                                 part: this.$store.state.user.part,
+                                time:
+                                    time.getFullYear() +
+                                    "/" +
+                                    (time.getMonth() + 1) +
+                                    "/" +
+                                    time.getDate(),
                             })
                             .then((res) => {
                                 this.$notify({
                                     title: "提交成功",
                                     message: "辞职申请提交成功,请等待审批",
                                 });
+                            })
+                            .then(() => {
+                                this.$axios
+                                    .patch(
+                                        "http://localhost:3000/member/"+this.$store.state.user.id,
+                                        {'access':0}
+                                    )
+                                    .then((res) => {
+                                        setTimeout(() => {
+                                            this.$router.go(0);
+                                        }, 3000);
+                                    });
                             });
                     } else {
                         this.$alert("密码错误,请重试", "失败", {
@@ -64,10 +88,11 @@ export default {
                 });
         },
     },
-    created() {
+    beforeCreate() {
         this.$axios
             .get(
-                "http://localhost:3000/del?name=" + this.$store.state.user.name
+                "http://localhost:3000/del?name=" +
+                    sessionStorage.getItem("system_confirm")
             )
             .then((res) => {
                 if (res.data[0]) {
