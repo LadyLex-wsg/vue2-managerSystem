@@ -2,10 +2,10 @@
     <div>
         <div v-if="global">
             <h2>确定要辞职吗?</h2>
-            <el-button type="warning" plain @click="show = true"
+            <el-button type="warning" plain @click="hide = true"
                 >辞职</el-button
             >
-            <el-dialog title="辞职申请" :visible="show" width="50%">
+            <el-dialog title="辞职申请" :visible="hide" width="50%">
                 <span>{{ $store.state.user.name }},确定要提交辞职申请吗?</span>
                 <el-input
                     v-model="pwd"
@@ -13,7 +13,7 @@
                     placeholder="请输入密码"
                 ></el-input>
                 <span slot="footer" class="dialog-footer">
-                    <el-button @click="show = false">取 消</el-button>
+                    <el-button @click="hide = false">取 消</el-button>
                     <el-button type="danger" @click="goodBye">确 定</el-button>
                 </span>
             </el-dialog>
@@ -29,7 +29,7 @@ export default {
     data() {
         return {
             global: true,
-            show: false,
+            hide: false,
             pwd: "",
         };
     },
@@ -44,7 +44,7 @@ export default {
                 )
                 .then((res) => {
                     if (res.data[0]) {
-                        this.show = false;
+                        this.hide = false;
                         let time = new Date();
                         this.$axios
                             .post("http://localhost:3000/del", {
@@ -88,11 +88,11 @@ export default {
                 });
         },
     },
-    beforeCreate() {
+    created() {
         this.$axios
             .get(
                 "http://localhost:3000/del?name=" +
-                    sessionStorage.getItem("system_confirm")
+                    sessionStorage.getItem("login_confirm")
             )
             .then((res) => {
                 if (res.data[0]) {

@@ -32,8 +32,24 @@
             >
             </el-input>
         </el-tooltip>
+        <span>确认新密码</span>
+        <el-tooltip
+            class="item"
+            effect="dark"
+            content="请确认新密码"
+            placement="top"
+        >
+            <el-input
+                placeholder="请确认新密码"
+                v-model="newPwd_confirm"
+                clearable
+                show-password
+                @input="judge"
+            >
+            </el-input>
+        </el-tooltip>
         <div class="btn">
-            <el-button :type="type" plain :disabled="status" @click="change"
+            <el-button :type="type" plain :disabled="disable" @click="change"
                 >提交</el-button
             >
         </div>
@@ -46,10 +62,12 @@ export default {
         return {
             oldPwd: "",
             newPwd: "",
+            newPwd_confirm: "",
             type: "danger",
-            status: true,
+            disable: true,
             judge1: "",
             judge2: "",
+            judge3: "",
         };
     },
     watch: {
@@ -77,10 +95,20 @@ export default {
     computed: {
         judge() {
             if (this.judge1 && this.judge2) {
-                this.status = false;
-                this.type = "primary";
+                if (this.newPwd_confirm == "") {
+                    this.disable = true;
+                    this.type = "danger";
+                } else if (this.newPwd_confirm == this.newPwd) {
+                    this.disable = false;
+                    this.type = "primary";
+                } else {
+                    this.disable = true;
+                    this.type = "danger";
+                }
+                // this.disable = false;
+                // this.type = "primary";
             } else {
-                this.status = true;
+                this.disable = true;
                 this.type = "danger";
             }
         },
@@ -96,33 +124,33 @@ export default {
                 )
                 .then((res) => {
                     if (res.data[0]) {
-                        if(this.newPwd == res.data[0].pwd){
-                            this.$message.error('新旧密码不能一样');
-                        }else{
+                        if (this.newPwd == res.data[0].pwd) {
+                            this.$message.error("新旧密码不能一样");
+                        } else {
                             this.$axios
-                            .patch(
-                                "http://localhost:3000/member/" +
-                                    res.data[0].id,
-                                { pwd: Number(this.newPwd) }
-                            )
-                            .then((res) => {
-                                if (res) {
-                                    this.$message({
-                                        message: "修改成功,请重新登录",
-                                        type: "success",
-                                    });
-                                    setTimeout(() => {
-                                        this.$router.push("/");
-                                    }, 5000);
-                                } else {
-                                    this.$message.error(
-                                        "旧密码错误,请重新输入"
-                                    );
-                                }
-                            })
-                            .catch(() => {
-                                this.$message.error("网络错误,请检查网络");
-                            });
+                                .patch(
+                                    "http://localhost:3000/member/" +
+                                        res.data[0].id,
+                                    { pwd: Number(this.newPwd) }
+                                )
+                                .then((res) => {
+                                    if (res) {
+                                        this.$message({
+                                            message: "修改成功,请重新登录",
+                                            type: "success",
+                                        });
+                                        setTimeout(() => {
+                                            this.$router.push("/");
+                                        }, 3000);
+                                    } else {
+                                        this.$message.error(
+                                            "旧密码错误,请重新输入"
+                                        );
+                                    }
+                                })
+                                .catch(() => {
+                                    this.$message.error("网络错误,请检查网络");
+                                });
                         }
                     }
                 });

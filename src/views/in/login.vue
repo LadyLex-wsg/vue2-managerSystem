@@ -68,7 +68,7 @@ export default {
                 )
                 .then((res) => {
                     if (res.data.length) {
-                        sessionStorage.setItem('system_confirm',this.name)
+                        sessionStorage.setItem('login_confirm',this.name)
                         this.$router.push('/home')
                     } else {
                         this.$axios

@@ -76,11 +76,11 @@ export default {
         };
     },
     created() {
-        if (sessionStorage.getItem("system_confirm")) {
+        if (sessionStorage.getItem("login_confirm")) {
             this.$axios
                 .get(
                     "http://localhost:3000/member?name=" +
-                        sessionStorage.getItem("system_confirm")
+                        sessionStorage.getItem("login_confirm")
                 )
                 .then((res) => {
                     if (res.data[0]) {
@@ -117,7 +117,7 @@ export default {
         }
     },
     destroyed() {
-        sessionStorage.removeItem("system_confirm");
+        sessionStorage.removeItem("login_confirm");
     },
     methods:{
         action(what){
