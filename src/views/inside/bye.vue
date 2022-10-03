@@ -5,16 +5,19 @@
             <el-button type="warning" plain @click="hide = true"
                 >辞职</el-button
             >
-            <el-dialog title="辞职申请" :visible="hide" width="50%">
+            <el-dialog title="辞职申请" :visible.sync="hide" width="50%">
                 <span>{{ $store.state.user.name }},确定要提交辞职申请吗?</span>
                 <el-input
                     v-model="pwd"
                     autocomplete="off"
                     placeholder="请输入密码"
+                    @input='test'
                 ></el-input>
+                <span>离职理由</span>
+                <el-input type="textarea" v-model="why" resize='none' @input='test'></el-input>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="hide = false">取 消</el-button>
-                    <el-button type="danger" @click="goodBye">确 定</el-button>
+                    <el-button type="danger" @click="goodBye" :disabled='bye'>确 定</el-button>
                 </span>
             </el-dialog>
         </div>
@@ -31,7 +34,18 @@ export default {
             global: true,
             hide: false,
             pwd: "",
+            why:'',
+            bye:true
         };
+    },
+    computed:{
+        test(){
+            if(this.pwd && this.why){
+                this.bye = false
+            }else{
+                this.bye = true
+            }
+        }
     },
     methods: {
         goodBye() {
@@ -50,6 +64,7 @@ export default {
                             .post("http://localhost:3000/del", {
                                 name: this.$store.state.user.name,
                                 part: this.$store.state.user.part,
+                                text:this.why,
                                 time:
                                     time.getFullYear() +
                                     "/" +

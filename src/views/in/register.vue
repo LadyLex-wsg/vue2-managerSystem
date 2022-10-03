@@ -127,6 +127,8 @@ export default {
                     message: "申请发送成功,请等待审批",
                     type: "success",
                 });
+            }).catch(()=>{
+                this.$message.error('申请发送失败,请检查网络')
             });
         },
         name_alert() {
