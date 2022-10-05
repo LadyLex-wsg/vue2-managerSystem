@@ -53,7 +53,7 @@
             </span>
         </el-dialog>
     </div>
-</temlate>
+</template>
 
 <script>
 export default {
