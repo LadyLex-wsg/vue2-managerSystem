@@ -15,7 +15,7 @@
                                 >员工总览
                                 </el-menu-item
                             >
-                            <el-menu-item index="1-2" v-show="access"
+                            <el-menu-item index="1-2" v-show="access" @click="$router.push('/home/add')"
                                 >入职审批</el-menu-item
                             >
                             <el-menu-item index="1-3" v-show="access" @click="$router.push('/home/del')"

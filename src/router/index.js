@@ -39,6 +39,10 @@ const routes = [
       {
         path:"del",
         component:()=>import('@/views/inside/del.vue')
+      },
+      {
+        path:'add',
+        component:()=>import('@/views/inside/add.vue')
       }
     ]
   },

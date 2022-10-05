@@ -2,7 +2,7 @@
     <div>
         <div v-show="show">
             <el-table :data="list" style="width: 100%">
-                <el-table-column label="日期" width="180">
+                <el-table-column label="日期">
                     <template slot-scope="scope">
                         <i class="el-icon-time"></i>
                         <span style="margin-left: 10px">{{
@@ -10,14 +10,14 @@
                         }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="部门" width="150">
+                <el-table-column label="部门">
                     <template slot-scope="scope">
                         <el-tag size="medium" type="success">{{
                             scope.row.part
                         }}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="姓名" width="150">
+                <el-table-column label="姓名">
                     <template slot-scope="scope">
                         <el-popover trigger="hover" placement="top">
                             <p>姓名: {{ scope.row.name }}</p>
@@ -125,7 +125,7 @@ export default {
                                     this.part = "";
                                     this.why = "";
                                     this.num = "";
-                                    this.id=""
+                                    this.id = "";
                                     this.dialog = false;
                                     this.$message({
                                         message: "申请已通过",
@@ -147,14 +147,18 @@ export default {
             background: "rgba(0, 0, 0, 0.7)",
         });
         setTimeout(() => {
-            this.$axios.get("http://localhost:3000/del").then((res) => {
-                if (res.data[0]) {
-                    this.list = res.data;
-                    this.show = true;
-                } else {
-                    this.show = false;
-                }
-            });
+            if (this.$store.state.user.access) {
+                this.$axios.get("http://localhost:3000/del").then((res) => {
+                    if (res.data[0]) {
+                        this.list = res.data;
+                        this.show = true;
+                    } else {
+                        this.show = false;
+                    }
+                });
+            } else {
+                this.$router.push("/401");
+            }
             loading.close();
         }, 800);
     },

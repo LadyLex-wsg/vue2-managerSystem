@@ -1,4 +1,4 @@
-<template>
+<temlate>
     <div>
         <el-table
             :data="list"
@@ -14,9 +14,46 @@
             </el-table-column>
             <el-table-column prop="name" label="姓名" width="150">
             </el-table-column>
+            <el-table-column label="操作" v-if="access">
+                <template slot-scope="scope">
+                    <el-button
+                        size="mini"
+                        v-if="scope.row.name"
+                        @click="edit(scope.$index, scope.row)"
+                        >编辑</el-button
+                    >
+                </template>
+            </el-table-column>
         </el-table>
+        <el-dialog title="操作" :visible.sync="dialog" width="30%">
+            <p>姓名:{{ name }}</p>
+            <p>部门:{{ part }}</p>
+            <p>职位:{{ job }}</p>
+            <p>薪资:</p>
+            <div>
+                <el-input-number
+                    v-model="money"
+                    width="100%"
+                    controls-position="right"
+                    :min="2000"
+                    :step="100"
+                ></el-input-number>
+            </div>
+            <span>用户权限</span>
+            <el-switch
+                v-model="power"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+            >
+            </el-switch>
+            <span>管理员权限</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialog = false">取 消</el-button>
+                <el-button type="primary" @click="update">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
-</template>
+</temlate>
 
 <script>
 export default {
@@ -40,7 +77,57 @@ export default {
                 },
             ],
             access: false,
+            power: false,
+            dialog: false,
+            num: "",
+            part: "",
+            job: "",
+            name: "",
+            money: "",
+            id: "",
         };
+    },
+    methods: {
+        edit(index, row) {
+            // console.log(index,row);
+            this.num = index;
+            this.name = row.name;
+            this.part = row.part;
+            this.job = row.job;
+            this.money = row.money;
+            this.power = row.access ? true : false;
+            this.id = row.id;
+            this.dialog = true;
+        },
+        update() {
+            if (this.access) {
+                this.$axios
+                    .patch("http://localhost:3000/member/" + this.id, {
+                        money: this.money,
+                        access: this.power ? 1 : 0,
+                    })
+                    .then(() => {
+                        this.dialog = false
+                        this.$message({
+                            message: "修改成功",
+                            type: "success",
+                        });
+                        this.$router.go(0)
+                    })
+                    .catch(() => {
+                        this.$message.error('网络错误,请检查网络');
+                    });
+            } else {
+                this.$router.push("/401");
+            }
+        },
+    },
+    watch: {
+        dialog() {
+            if (!this.dialog) {
+                this.money = "";
+            }
+        },
     },
     created() {
         const loading = this.$loading({
