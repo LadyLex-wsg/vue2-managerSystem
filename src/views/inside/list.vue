@@ -1,4 +1,4 @@
-<temlate>
+<template>
     <div>
         <el-table
             :data="list"
@@ -53,7 +53,7 @@
             </span>
         </el-dialog>
     </div>
-</temlate>
+</template>
 
 <script>
 export default {
