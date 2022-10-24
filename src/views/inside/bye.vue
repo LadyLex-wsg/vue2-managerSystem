@@ -11,13 +11,20 @@
                     v-model="pwd"
                     autocomplete="off"
                     placeholder="请输入密码"
-                    @input='test'
+                    @input="test"
                 ></el-input>
                 <span>离职理由</span>
-                <el-input type="textarea" v-model="why" resize='none' @input='test'></el-input>
+                <el-input
+                    type="textarea"
+                    v-model="why"
+                    resize="none"
+                    @input="test"
+                ></el-input>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="hide = false">取 消</el-button>
-                    <el-button type="danger" @click="goodBye" :disabled='bye'>确 定</el-button>
+                    <el-button type="danger" @click="goodBye" :disabled="bye"
+                        >确 定</el-button
+                    >
                 </span>
             </el-dialog>
         </div>
@@ -34,18 +41,18 @@ export default {
             global: true,
             hide: false,
             pwd: "",
-            why:'',
-            bye:true
+            why: "",
+            bye: true,
         };
     },
-    computed:{
-        test(){
-            if(this.pwd && this.why){
-                this.bye = false
-            }else{
-                this.bye = true
+    computed: {
+        test() {
+            if (this.pwd && this.why) {
+                this.bye = false;
+            } else {
+                this.bye = true;
             }
-        }
+        },
     },
     methods: {
         goodBye() {
@@ -60,17 +67,21 @@ export default {
                     if (res.data[0]) {
                         this.hide = false;
                         let time = new Date();
+                        let history = [];
+                        history[0] = res.data[0].access?"admin":"user";
+                        history[1] = res.data[0].id
                         this.$axios
                             .post("http://localhost:3000/del", {
                                 name: this.$store.state.user.name,
                                 part: this.$store.state.user.part,
-                                text:this.why,
+                                text: this.why,
                                 time:
                                     time.getFullYear() +
                                     "/" +
                                     (time.getMonth() + 1) +
                                     "/" +
                                     time.getDate(),
+                                history: history,
                             })
                             .then((res) => {
                                 this.$notify({
@@ -81,8 +92,9 @@ export default {
                             .then(() => {
                                 this.$axios
                                     .patch(
-                                        "http://localhost:3000/member/"+this.$store.state.user.id,
-                                        {'access':0}
+                                        "http://localhost:3000/member/" +
+                                            this.$store.state.user.id,
+                                        { access: 0 }
                                     )
                                     .then((res) => {
                                         setTimeout(() => {

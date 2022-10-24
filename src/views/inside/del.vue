@@ -68,6 +68,7 @@ export default {
             why: "",
             num: "",
             id: "",
+            history: "",
         };
     },
     methods: {
@@ -78,22 +79,34 @@ export default {
             this.name = row.name;
             this.part = row.part;
             this.why = row.text;
+            this.history = row.history;
         },
         not() {
             this.$axios
                 .delete("http://localhost:3000/del/" + this.list[this.num].id)
                 .then((res) => {
-                    this.$delete(this.list, this.num);
-                    this.name = "";
-                    this.part = "";
-                    this.why = "";
-                    this.num = "";
-                    this.id = "";
-                    this.dialog = false;
-                    this.$message({
-                        message: "申请已驳回",
-                        type: "success",
-                    });
+                    if (this.history[0] == "admin") {
+                        this.$axios
+                            .patch(
+                                "http://localhost:3000/member/" +
+                                    this.history[1],
+                                { access: 1 }
+                            )
+                            .then((res) => {
+                                this.$delete(this.list, this.num);
+                                this.name = "";
+                                this.part = "";
+                                this.why = "";
+                                this.num = "";
+                                this.id = "";
+                                this.history = "";
+                                this.dialog = false;
+                                this.$message({
+                                    message: "申请已驳回",
+                                    type: "success",
+                                });
+                            });
+                    }
                 })
                 .catch(() => {
                     this.$message.error("网络错误,操作失败");
