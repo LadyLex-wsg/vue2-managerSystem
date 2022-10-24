@@ -93,20 +93,25 @@ export default {
                                 { access: 1 }
                             )
                             .then((res) => {
-                                this.$delete(this.list, this.num);
-                                this.name = "";
-                                this.part = "";
-                                this.why = "";
-                                this.num = "";
-                                this.id = "";
-                                this.history = "";
-                                this.dialog = false;
                                 this.$message({
-                                    message: "申请已驳回",
+                                    message: "申请已驳回,恢复管理员权限",
                                     type: "success",
                                 });
                             });
+                    }else{
+                        this.$message({
+                                    message: "申请已驳回",
+                                    type: "success",
+                                });
                     }
+                    this.$delete(this.list, this.num);
+                    this.name = "";
+                    this.part = "";
+                    this.why = "";
+                    this.num = "";
+                    this.id = "";
+                    this.history = "";
+                    this.dialog = false;
                 })
                 .catch(() => {
                     this.$message.error("网络错误,操作失败");

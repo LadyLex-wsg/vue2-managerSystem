@@ -97,9 +97,11 @@ export default {
                                         { access: 0 }
                                     )
                                     .then((res) => {
-                                        setTimeout(() => {
-                                            this.$router.go(0);
-                                        }, 3000);
+                                        this.global = false;
+                                        this.why = "";
+                                        this.pwd = "";
+                                        this.bye = true;
+                                        this.$store.state.user.access = false;
                                     });
                             });
                     } else {
